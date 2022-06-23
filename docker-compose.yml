@@ -6,9 +6,15 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - 3306:33060
-    # healthcheck:
-    #   test: ["CMD", "mysqladmin", "ping"]
-    #   interval: 10s
-    #   timeout: 5s
-    #   retries: 5
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+
