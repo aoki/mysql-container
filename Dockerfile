@@ -1,11 +1,10 @@
 FROM golang as build
-WORKDIR /go/src/app
+WORKDIR /app
 COPY ["src", "go.mod", "go.sum", "./"]
-RUN go install
-CMD ["go", "run", "main.go"]
+RUN go install && go build
 
-FROM gcr.io/distroless/base:debug
+FROM gcr.io/distroless/base:debug as app
 # FROM gcr.io/distroless/base
 WORKDIR /app
-COPY --from=build /go/bin/mysql-container /app
-CMD ["./mysql-container"]
+COPY --from=build /app/mysql-container .
+ENTRYPOINT [ "./mysql-container"]

@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+	fmt.Println("Hello")
 	db, err := sql.Open("mysql", "root:root@(mysql:3306)/performance_schema")
 	if err != nil {
 		os.Exit(1)
